@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rangga Davandri — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #080d1a;
+    --surface: #0f1625;
+    --surface2: #161f35;
+    --surface3: #1d2845;
+    --purple: #7c6fff;
+    --teal: #00d4aa;
+    --text: #dde4ff;
+    --muted: #7b89a8;
+    --border: rgba(124, 111, 255, 0.15);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ─── Noise overlay ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ─── Nav ─── */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 1.1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(16px);
+    background: rgba(8, 13, 26, 0.75);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--purple);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+
+  .nav-logo span { color: var(--teal); }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+    position: relative;
+  }
+
+  .nav-links a::before {
+    content: '// ';
+    color: var(--purple);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a:hover::before { opacity: 1; }
+
+  /* ─── Hero ─── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 6rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(124,111,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124,111,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 100%);
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(124,111,255,0.12) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .terminal-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--teal);
+    letter-spacing: 0.08em;
+    margin-bottom: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .terminal-tag::before {
+    content: '';
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--teal);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
+  }
+
+  .hero-name {
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin-bottom: 1.2rem;
+    background: linear-gradient(135deg, #dde4ff 30%, #7c6fff 70%, #00d4aa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-role {
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+    min-height: 2em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .role-prefix { color: var(--purple); font-family: 'JetBrains Mono', monospace; }
+
+  #typed-role {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.2em;
+    background: var(--teal);
+    animation: blink 1s step-end infinite;
+    vertical-align: middle;
+    margin-left: 2px;
+  }
+
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 560px;
+    line-height: 1.75;
+    margin-bottom: 3rem;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.8rem;
+    border-radius: 8px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--purple);
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background: #9289ff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(124, 111, 255, 0.35);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--teal);
+    border: 1.5px solid rgba(0, 212, 170, 0.4);
+  }
+
+  .btn-outline:hover {
+    background: rgba(0, 212, 170, 0.08);
+    border-color: var(--teal);
+    transform: translateY(-2px);
+  }
+
+  .tech-stack {
+    margin-top: 3.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+  }
+
+  .stack-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  .stack-pills {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: 100px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    transition: all 0.2s;
+  }
+
+  .pill:hover {
+    border-color: var(--purple);
+    color: var(--purple);
+  }
+
+  /* ─── Section commons ─── */
+  section {
+    padding: 6rem 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .container { max-width: 1000px; margin: 0 auto; }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: var(--teal);
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+
+  .section-title {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+
+  .section-desc {
+    color: var(--muted);
+    font-size: 1rem;
+    max-width: 520px;
+    line-height: 1.7;
+    margin-bottom: 3.5rem;
+  }
+
+  /* ─── Projects ─── */
+  #projects { background: linear-gradient(180deg, var(--bg) 0%, var(--surface) 100%); }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.75rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--purple), var(--teal));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s;
+  }
+
+  .project-card:hover {
+    border-color: rgba(124, 111, 255, 0.4);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+  }
+
+  .project-card:hover::before { transform: scaleX(1); }
+
+  .project-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .project-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: 4px;
+    background: rgba(124, 111, 255, 0.1);
+    color: var(--purple);
+    border: 1px solid rgba(124, 111, 255, 0.2);
+  }
+
+  .tag.teal {
+    background: rgba(0, 212, 170, 0.08);
+    color: var(--teal);
+    border-color: rgba(0, 212, 170, 0.2);
+  }
+
+  .project-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.6rem;
+  }
+
+  .project-desc {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.65;
+    margin-bottom: 1.25rem;
+  }
+
+  .project-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--purple);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: gap 0.2s;
+  }
+
+  .project-link:hover { gap: 0.7rem; color: var(--teal); }
+
+  /* ─── Certifications ─── */
+  #certifications { background: var(--surface); }
+
+  .cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .cert-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+  }
+
+  .cert-card:hover {
+    border-color: rgba(0, 212, 170, 0.35);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+  }
+
+  .cert-img-wrap {
+    width: 100%;
+    height: 150px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cert-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .cert-card:hover .cert-img {
+    transform: scale(1.05);
+  }
+
+  .cert-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(8, 13, 26, 0.6);
+    backdrop-filter: blur(2px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .cert-card:hover .cert-overlay {
+    opacity: 1;
+  }
+
+  .cert-overlay span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--teal);
+    background: rgba(0, 212, 170, 0.1);
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    border: 1px solid var(--teal);
+  }
+
+  .cert-body {
+    padding: 1.4rem 1.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .cert-badge {
+    width: 46px;
+    height: 46px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    background: var(--surface3);
+  }
+
+  .cert-info { flex: 1; min-width: 0; }
+
+  .cert-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+    line-height: 1.3;
+  }
+
+  .cert-issuer {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .cert-year {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--teal);
+    background: rgba(0, 212, 170, 0.08);
+    border: 1px solid rgba(0, 212, 170, 0.2);
+    padding: 0.15rem 0.55rem;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  /* ─── Lightbox Modal ─── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(8, 13, 26, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .modal-overlay.active {
+    display: flex;
+    opacity: 1;
+  }
+
+  .modal-content {
+    max-width: 900px;
+    max-height: 85vh;
+    width: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+  }
+
+  .modal-overlay.active .modal-content {
+    transform: translateY(0);
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 2.5rem;
+    font-size: 3rem;
+    color: var(--muted);
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s;
+  }
+
+  .modal-close:hover {
+    color: var(--teal);
+  }
+
+  /* ─── Stats Bar ─── */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 4rem;
+  }
+
+  .stat {
+    background: var(--surface2);
+    padding: 1.5rem 2rem;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-size: 2.2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--purple), var(--teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* ─── Contact ─── */
+  #contact { background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%); }
+
+  .contact-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .contact-info p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.75;
+    margin-bottom: 2rem;
+  }
+
+  .contact-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.85rem 1.1rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .contact-item:hover {
+    border-color: rgba(124,111,255,0.4);
+    transform: translateX(4px);
+  }
+
+  .contact-item-icon {
+    font-size: 1.2rem;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface3);
+    border-radius: 8px;
+  }
+
+  .contact-item-label {
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .contact-item-value {
+    font-size: 0.88rem;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  /* ─── Form ─── */
+  .contact-form {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.2rem;
+  }
+
+  .form-label {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .form-input, .form-textarea {
+    width: 100%;
+    background: var(--surface3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+
+  .form-input:focus, .form-textarea:focus {
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px rgba(124,111,255,0.12);
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 110px;
+  }
+
+  .form-input::placeholder, .form-textarea::placeholder { color: var(--muted); opacity: 0.6; }
+
+  .btn-send {
+    width: 100%;
+    padding: 0.9rem;
+    margin-top: 0.5rem;
+    background: linear-gradient(135deg, var(--purple), #5b51f5);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .btn-send:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(124,111,255,0.35);
+    background: linear-gradient(135deg, #9289ff, var(--purple));
+  }
+
+  .btn-send:active { transform: translateY(0); }
+
+  .toast {
+    display: none;
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--surface2);
+    border: 1px solid rgba(0,212,170,0.4);
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    color: var(--teal);
+    font-size: 0.9rem;
+    font-weight: 500;
+    z-index: 999;
+    animation: fadeInUp 0.3s ease;
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── Footer ─── */
+  footer {
+    padding: 2rem;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+  }
+
+  footer span { color: var(--purple); }
+
+  /* ─── Reveal animation ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── Mobile ─── */
+  @media (max-width: 700px) {
+    .nav-links { gap: 1rem; }
+    .nav-links a::before { display: none; }
+    .contact-wrap { grid-template-columns: 1fr; gap: 2.5rem; }
+    .stats-bar { grid-template-columns: 1fr; gap: 0; }
+    .hero-name { font-size: 2.4rem; }
+  }
+
+  /* ─── Active nav indicator ─── */
+  .nav-links a.active { color: var(--teal); }
+</style>
+</head>
+<body>
+
+<!-- ░░ NAV ░░ -->
+<nav>
+  <a class="nav-logo" href="#hero">rangga<span>.dev</span></a>
+  <ul class="nav-links">
+    <li><a href="#projects">projects</a></li>
+    <li><a href="#certifications">certs</a></li>
+    <li><a href="#contact">contact</a></li>
+  </ul>
+</nav>
+
+<!-- ░░ HERO ░░ -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="terminal-tag">available for freelance · semester 4 · Informatika</div>
+    <h1 class="hero-name">Rangga Davandri<br>Tauhid</h1>
+    <p class="hero-role">
+      <span class="role-prefix">const role = "</span><span id="typed-role"></span><span class="cursor"></span><span class="role-prefix">"</span>
+    </p>
+    <p class="hero-desc">
+      Mahasiswa Teknik Informatika yang passionate membangun aplikasi web, mobile, dan solusi berbasis data. Fokus pada pengalaman pengguna yang bersih dan kode yang bermakna.
+    </p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#projects">Lihat Proyek →</a>
+      <a class="btn btn-outline" href="#contact">Hubungi Saya</a>
+    </div>
+    <div class="tech-stack">
+      <span class="stack-label">stack:</span>
+      <div class="stack-pills">
+        <span class="pill">HTML/CSS</span>
+        <span class="pill">JavaScript</span>
+        <span class="pill">PHP/CI4</span>
+        <span class="pill">Java/Android</span>
+        <span class="pill">Python</span>
+        <span class="pill">MySQL</span>
+        <span class="pill">MongoDB</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ PROJECTS ░░ -->
+<section id="projects">
+  <div class="container">
+    <p class="section-label reveal">// projects</p>
+    <h2 class="section-title reveal">Proyek Pilihan</h2>
+    <p class="section-desc reveal">Dari aplikasi mobile hingga sistem berbasis AI — beberapa hal yang pernah saya bangun.</p>
+
+    <div class="stats-bar reveal">
+      <div class="stat"><div class="stat-num">8+</div><div class="stat-label">Proyek Selesai</div></div>
+      <div class="stat"><div class="stat-num">4</div><div class="stat-label">Semester Aktif</div></div>
+      <div class="stat"><div class="stat-num">3+</div><div class="stat-label">Tech Stack</div></div>
+    </div>
+
+    <div class="projects-grid">
+      <div class="project-card reveal">
+        <div class="project-icon">🌿</div>
+        <div class="project-tags">
+          <span class="tag">Android</span>
+          <span class="tag">Java</span>
+          <span class="tag teal">ML / TFLite</span>
+        </div>
+        <div class="project-title">Weed Detection App</div>
+        <div class="project-desc">Aplikasi Android real-time untuk deteksi gulma menggunakan model TFLite dari Google Colab. Integrasi Flask backend melalui Retrofit untuk inferensi gambar.</div>
+        <a class="project-link" href="#">Lihat Detail →</a>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-icon">😴</div>
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag teal">TFLite</span>
+          <span class="tag">OpenCV</span>
+        </div>
+        <div class="project-title">Drowsiness Detection</div>
+        <div class="project-desc">Sistem deteksi kantuk secara real-time menggunakan TFLite dan OpenCV. Tersedia versi desktop Python maupun integrasi Android Studio.</div>
+        <a class="project-link" href="#">Lihat Detail →</a>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-icon">🏛️</div>
+        <div class="project-tags">
+          <span class="tag">CodeIgniter 4</span>
+          <span class="tag">PHP</span>
+          <span class="tag teal">MySQL</span>
+        </div>
+        <div class="project-title">Peminjaman Ruangan Kampus</div>
+        <div class="project-desc">Sistem manajemen peminjaman ruangan kampus BSI berbasis web dengan autentikasi bcrypt, role management, dan dashboard admin.</div>
+        <a class="project-link" href="#">Lihat Detail →</a>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-icon">🤖</div>
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag teal">ML</span>
+          <span class="tag">Flask</span>
+        </div>
+        <div class="project-title">ML Web Application</div>
+        <div class="project-desc">Aplikasi web ML komprehensif mencakup modul klasifikasi, regresi, clustering, dan NLP dengan visualisasi interaktif Chart.js untuk IT Camp.</div>
+        <a class="project-link" href="#">Lihat Detail →</a>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-icon">👗</div>
+        <div class="project-tags">
+          <span class="tag">MongoDB</span>
+          <span class="tag teal">NoSQL</span>
+          <span class="tag">Database</span>
+        </div>
+        <div class="project-title">Toko Pakaian — MongoDB</div>
+        <div class="project-desc">Sistem database toko pakaian dengan 10 koleksi MongoDB mencakup transaksi, keranjang, ulasan, varian produk, dan manajemen pembayaran.</div>
+        <a class="project-link" href="#">Lihat Detail →</a>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-icon">📸</div>
+        <div class="project-tags">
+          <span class="tag">AI / API</span>
+          <span class="tag teal">Android</span>
+          <span class="tag">Creative</span>
+        </div>
+        <div class="project-title">SmartBooth App</div>
+        <div class="project-desc">Konsep aplikasi SmartBooth berbasis AI untuk pengalaman foto interaktif dengan pemrosesan gambar cerdas dan filter generatif.</div>
+        <a class="project-link" href="#">Lihat Detail →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ CERTIFICATIONS ░░ -->
+<section id="certifications">
+  <div class="container">
+    <p class="section-label reveal">// certifications</p>
+    <h2 class="section-title reveal">Sertifikasi</h2>
+    <p class="section-desc reveal">Kompetensi yang telah diakui melalui berbagai platform dan lembaga pendidikan.</p>
+
+    <div class="cert-grid">
+      <!-- Sertifikat 1 -->
+      <div class="cert-card reveal" onclick="openModal('https://via.placeholder.com/800x600/161f35/00d4aa?text=Sertifikat+Python')">
+        <div class="cert-img-wrap">
+          <img src="https://via.placeholder.com/800x600/161f35/00d4aa?text=Sertifikat+Python" alt="Python for Data Science" class="cert-img">
+          <div class="cert-overlay">
+            <span>🔍 Lihat Full</span>
+          </div>
+        </div>
+        <div class="cert-body">
+          <div class="cert-badge">🐍</div>
+          <div class="cert-info">
+            <div class="cert-name">Python for Data Science</div>
+            <div class="cert-issuer">IBM / Coursera</div>
+            <span class="cert-year">2024</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sertifikat 2 -->
+      <div class="cert-card reveal" onclick="openModal('https://via.placeholder.com/800x600/161f35/00d4aa?text=Sertifikat+Web')">
+        <div class="cert-img-wrap">
+          <img src="https://via.placeholder.com/800x600/161f35/00d4aa?text=Sertifikat+Web" alt="Responsive Web Design" class="cert-img">
+          <div class="cert-overlay">
+            <span>🔍 Lihat Full</span>
+          </div>
+        </div>
+        <div class="cert-body">
+          <div class="cert-badge">🌐</div>
+          <div class="cert-info">
+            <div class="cert-name">Responsive Web Design</div>
+            <div class="cert-issuer">freeCodeCamp</div>
+            <span class="cert-year">2023</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sertifikat 3 -->
+      <div class="cert-card reveal" onclick="openModal('https://via.placeholder.com/800x600/161f35/00d4aa?text=Sertifikat+Machine+Learning')">
+        <div class="cert-img-wrap">
+          <img src="https://via.placeholder.com/800x600/161f35/00d4aa?text=Sertifikat+Machine+Learning" alt="Machine Learning Fundamentals" class="cert-img">
+          <div class="cert-overlay">
+            <span>🔍 Lihat Full</span>
+          </div>
+        </div>
+        <div class="cert-body">
+          <div class="cert-badge">🤖</div>
+          <div class="cert-info">
+            <div class="cert-name">Machine Learning Fundamentals</div>
+            <div class="cert-issuer">Google / Coursera</div>
+            <span class="cert-year">2024</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sertifikat 4 -->
+      <div class="cert-card reveal" onclick="openModal('https://via.placeholder.com/800x600/161f35/00d4aa?text=Sertifikat+Data+Analysis')">
+        <div class="cert-img-wrap">
+          <img src="https://via.placeholder.com/800x600/161f35/00d4aa?text=Sertifikat+Data+Analysis" alt="Data Analysis with Python" class="cert-img">
+          <div class="cert-overlay">
+            <span>🔍 Lihat Full</span>
+          </div>
+        </div>
+        <div class="cert-body">
+          <div class="cert-badge">📊</div>
+          <div class="cert-info">
+            <div class="cert-name">Data Analysis with Python</div>
+            <div class="cert-issuer">Dicoding Indonesia</div>
+            <span class="cert-year">2024</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sertifikat 5 -->
+      <div class="cert-card reveal" onclick="openModal('https://via.placeholder.com/800x600/161f35/00d4aa?text=Sertifikat+Android')">
+        <div class="cert-img-wrap">
+          <img src="https://via.placeholder.com/800x600/161f35/00d4aa?text=Sertifikat+Android" alt="Android Developer Fundamentals" class="cert-img">
+          <div class="cert-overlay">
+            <span>🔍 Lihat Full</span>
+          </div>
+        </div>
+        <div class="cert-body">
+          <div class="cert-badge">📱</div>
+          <div class="cert-info">
+            <div class="cert-name">Android Developer Fundamentals</div>
+            <div class="cert-issuer">Google Developers</div>
+            <span class="cert-year">2023</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sertifikat 6 -->
+      <div class="cert-card reveal" onclick="openModal('https://via.placeholder.com/800x600/161f35/00d4aa?text=Sertifikat+Security')">
+        <div class="cert-img-wrap">
+          <img src="https://via.placeholder.com/800x600/161f35/00d4aa?text=Sertifikat+Security" alt="Web Security Basics" class="cert-img">
+          <div class="cert-overlay">
+            <span>🔍 Lihat Full</span>
+          </div>
+        </div>
+        <div class="cert-body">
+          <div class="cert-badge">🛡️</div>
+          <div class="cert-info">
+            <div class="cert-name">Web Security Basics</div>
+            <div class="cert-issuer">HackerOne / Self-study</div>
+            <span class="cert-year">2024</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sertifikat 7 -->
+      <div class="cert-card reveal" onclick="openModal('https://via.placeholder.com/800x600/161f35/00d4aa?text=Sertifikat+SQL')">
+        <div class="cert-img-wrap">
+          <img src="https://via.placeholder.com/800x600/161f35/00d4aa?text=Sertifikat+SQL" alt="SQL & Database Design" class="cert-img">
+          <div class="cert-overlay">
+            <span>🔍 Lihat Full</span>
+          </div>
+        </div>
+        <div class="cert-body">
+          <div class="cert-badge">🗄️</div>
+          <div class="cert-info">
+            <div class="cert-name">SQL & Database Design</div>
+            <div class="cert-issuer">Dicoding Indonesia</div>
+            <span class="cert-year">2023</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sertifikat 8 -->
+      <div class="cert-card reveal" onclick="openModal('https://via.placeholder.com/800x600/161f35/00d4aa?text=Sertifikat+JavaScript')">
+        <div class="cert-img-wrap">
+          <img src="https://via.placeholder.com/800x600/161f35/00d4aa?text=Sertifikat+JavaScript" alt="JavaScript Algorithms" class="cert-img">
+          <div class="cert-overlay">
+            <span>🔍 Lihat Full</span>
+          </div>
+        </div>
+        <div class="cert-body">
+          <div class="cert-badge">⚡</div>
+          <div class="cert-info">
+            <div class="cert-name">JavaScript Algorithms</div>
+            <div class="cert-issuer">freeCodeCamp</div>
+            <span class="cert-year">2023</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ░░ CONTACT ░░ -->
+<section id="contact">
+  <div class="container">
+    <p class="section-label reveal">// contact</p>
+    <h2 class="section-title reveal">Hubungi Saya</h2>
+
+    <div class="contact-wrap">
+      <div class="contact-info reveal">
+        <p>Saya terbuka untuk kolaborasi proyek, freelance, atau sekadar diskusi teknologi. Jangan ragu untuk menghubungi!</p>
+        <div class="contact-items">
+          <a class="contact-item" href="mailto:ranggadavandritauhid@gmail.com">
+            <div class="contact-item-icon">✉️</div>
+            <div>
+              <div class="contact-item-label">Email</div>
+              <div class="contact-item-value">ranggadavandritauhid@gmail.com</div>
+            </div>
+          </a>
+          <a class="contact-item" href="https://github.com/RanggaDT/" target="_blank">
+            <div class="contact-item-icon">🐙</div>
+            <div>
+              <div class="contact-item-label">GitHub</div>
+              <div class="contact-item-value">github.com/RanggaDT</div>
+            </div>
+          </a>
+          <a class="contact-item" href="https://linkedin.com/" target="_blank">
+            <div class="contact-item-icon">💼</div>
+            <div>
+              <div class="contact-item-label">LinkedIn</div>
+              <div class="contact-item-value">Rangga Davandri Tauhid</div>
+            </div>
+          </a>
+          <!-- Ganti Lokasi Menjadi WhatsApp -->
+          <a class="contact-item" href="https://wa.me/6281234567890" target="_blank">
+            <div class="contact-item-icon">💬</div>
+            <div>
+              <div class="contact-item-label">WhatsApp</div>
+              <div class="contact-item-value">+62 812-3456-7890</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="contact-form reveal">
+        <div class="form-group">
+          <label class="form-label" for="fname">Nama</label>
+          <input class="form-input" id="fname" type="text" placeholder="John Doe">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="femail">Email</label>
+          <input class="form-input" id="femail" type="email" placeholder="hello@email.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="fsubject">Subjek</label>
+          <input class="form-input" id="fsubject" type="text" placeholder="Kolaborasi proyek / freelance...">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="fmsg">Pesan</label>
+          <textarea class="form-textarea" id="fmsg" placeholder="Ceritakan lebih lanjut tentang kebutuhanmu..."></textarea>
+        </div>
+        <button class="btn-send" onclick="handleSend()">
+          Kirim Pesan ✦
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  &lt;/ coded by <span>Rangga Davandri Tauhid</span> · 2025 &gt;
+</footer>
+
+<div class="toast" id="toast">✦ Pesan terkirim! Terima kasih sudah menghubungi.</div>
+
+<!-- ░░ MODAL LIGHTBOX ░░ -->
+<div class="modal-overlay" id="certModal">
+  <span class="modal-close" onclick="closeModal()">&times;</span>
+  <img class="modal-content" id="modalImage" src="" alt="Sertifikat Full">
+</div>
+
+<script>
+  /* ── Typewriter ── */
+  const roles = [
+    'Frontend Developer',
+    'Mobile Developer',
+    'Data Science Enthusiast',
+    'Informatika Student',
+    'Freelancer'
+  ];
+  let ri = 0, ci = 0, deleting = false;
+  const el = document.getElementById('typed-role');
+
+  function type() {
+    const word = roles[ri];
+    if (!deleting) {
+      el.textContent = word.slice(0, ++ci);
+      if (ci === word.length) { deleting = true; setTimeout(type, 1800); return; }
+    } else {
+      el.textContent = word.slice(0, --ci);
+      if (ci === 0) { deleting = false; ri = (ri + 1) % roles.length; }
+    }
+    setTimeout(type, deleting ? 55 : 90);
+  }
+  type();
+
+  /* ── Scroll reveal ── */
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  /* ── Active nav ── */
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 160) cur = s.id; });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + cur);
+    });
+  });
+
+  /* ── Contact form ── */
+  function handleSend() {
+    const name = document.getElementById('fname').value.trim();
+    const email = document.getElementById('femail').value.trim();
+    const msg = document.getElementById('fmsg').value.trim();
+    if (!name || !email || !msg) {
+      alert('Mohon lengkapi semua field ya!');
+      return;
+    }
+    const t = document.getElementById('toast');
+    t.style.display = 'block';
+    setTimeout(() => { t.style.display = 'none'; }, 3500);
+    document.getElementById('fname').value = '';
+    document.getElementById('femail').value = '';
+    document.getElementById('fsubject').value = '';
+    document.getElementById('fmsg').value = '';
+  }
+
+  /* ── Staggered card delays ── */
+  document.querySelectorAll('.project-card, .cert-card').forEach((el, i) => {
+    el.style.transitionDelay = (i % 3) * 0.08 + 's';
+  });
+
+  /* ── Modal Lightbox Sertifikat ── */
+  function openModal(imageSrc) {
+    const modal = document.getElementById('certModal');
+    const modalImg = document.getElementById('modalImage');
+    
+    // Set sumber gambar
+    modalImg.src = imageSrc;
+    
+    // Tampilkan modal dengan animasi
+    modal.style.display = 'flex';
+    setTimeout(() => modal.classList.add('active'), 10);
+    
+    // Mencegah scroll pada body saat modal terbuka
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    const modal = document.getElementById('certModal');
+    
+    // Sembunyikan dengan animasi
+    modal.classList.remove('active');
+    setTimeout(() => {
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto'; // Kembalikan scroll body
+    }, 300);
+  }
+
+  // Menutup modal jika area gelap di luar gambar diklik
+  document.getElementById('certModal').addEventListener('click', function(e) {
+    if(e.target === this) closeModal();
+  });
+</script>
+</body>
+</html>
